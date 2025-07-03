@@ -1,10 +1,16 @@
 from typing import Union
 from enum import Enum
+from pydantic import BaseModel
 
 from fastapi import FastAPI
 
 class ItemType(str, Enum):
     book = "book"
+
+class User(BaseModel):
+    id: int
+    name: str
+    email: str
 
 app = FastAPI()
 
@@ -33,4 +39,10 @@ def get_user_item(user_id: int, item_id: str):
 @app.get("/items/")
 def get_items(q: str = None, skip: int | None = 0):
     return {"q": q, "skip": skip}
+
+@app.post("/users/")
+def create_user(user: User):
+    return {"user_id": user.id, "name": user.name, "email": user.email}
+
+
 

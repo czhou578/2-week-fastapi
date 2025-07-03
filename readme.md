@@ -48,3 +48,7 @@ def read_item(item_id: int = Path(..., ge=1), q: str = None):
 ```
 
 With Pydantic, FastAPI handles validation errors automatically, returning appropriate HTTP status codes and error messages.
+
+Query parameters and Request bodies are different because Request bodies are generating a schema based upon the request body
+that is being sent up with the api request. 
+
