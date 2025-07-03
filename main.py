@@ -30,3 +30,7 @@ def read_user(user_id: int):
 def get_user_item(user_id: int, item_id: str):
     return {"user_id": user_id, "item_id": item_id}
 
+@app.get("/items/")
+def get_items(q: str = None, skip: int | None = 0):
+    return {"q": q, "skip": skip}
+
