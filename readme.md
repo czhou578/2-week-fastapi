@@ -52,3 +52,9 @@ With Pydantic, FastAPI handles validation errors automatically, returning approp
 Query parameters and Request bodies are different because Request bodies are generating a schema based upon the request body
 that is being sent up with the api request. 
 
+Dependency Injection:
+
+It is just a function that can take all the same parameters that a path operation function can take:
+
+Dependency injection is beneficial because it is able to modularize logic. Avoid code duplication
+

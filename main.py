@@ -1,8 +1,8 @@
-from typing import Union
+from email.header import Header
+from typing import Union, Annotated
 from enum import Enum
 from pydantic import BaseModel
-
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, Header, Depends
 
 class ItemType(str, Enum):
     book = "book"
@@ -14,17 +14,21 @@ class User(BaseModel):
 
 app = FastAPI()
 
+async def get_api_key(x_api_key: str = Header(...)):
+    if x_api_key != "mysecretkey":
+        raise HTTPException(status_code=400, detail="Invalid API Key")
+    return x_api_key
+
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
-
 
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: Union[str, None] = None):
     return {"item_id": item_id, "q": q}
 
 @app.get("/users/{user_id}")
-def read_user(user_id: int):
+def read_user(user_id: int, api_key: Annotated[str, Depends(get_api_key)]):
     if user_id < 0:
         return {"error": "User ID must be a non-negative integer"}
     elif user_id > 0 and user_id < 1000:
