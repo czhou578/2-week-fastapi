@@ -3,6 +3,8 @@ from typing import Union, Annotated
 from enum import Enum
 from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException, Header, Depends
+from sqlalchemy.orm import Session
+from database import get_db, User as DBUser
 
 class ItemType(str, Enum):
     book = "book"
@@ -27,6 +29,12 @@ def read_root():
 def read_item(item_id: int, q: Union[str, None] = None):
     return {"item_id": item_id, "q": q}
 
+@app.get("/users/")
+def read_users(skip: int = 0, limit: int = 10):
+    db: Session = next(get_db())
+    users = db.query(DBUser).offset(skip).limit(limit).all()
+    return users
+
 @app.get("/users/{user_id}")
 def read_user(user_id: int, api_key: Annotated[str, Depends(get_api_key)]):
     if user_id < 0:
@@ -46,7 +54,12 @@ def get_items(q: str = None, skip: int | None = 0):
 
 @app.post("/users/")
 def create_user(user: User):
-    return {"user_id": user.id, "name": user.name, "email": user.email}
+    db: Session = next(get_db())
+    db_user = DBUser(name=user.name, email=user.email)
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return {"id": db_user.id, "name": db_user.name, "email": db_user.email}
 
 
 

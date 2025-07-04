@@ -58,3 +58,5 @@ It is just a function that can take all the same parameters that a path operatio
 
 Dependency injection is beneficial because it is able to modularize logic. Avoid code duplication
 
+Async Await in Python:
+
