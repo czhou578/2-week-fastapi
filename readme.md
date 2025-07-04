@@ -95,5 +95,15 @@ async def http_exception_handler(request, exc):
 
 Error handling benefits from better printouts of errors and also allows custom error handling
 
+Multiple Middleware Stacking:
 
+```python
+
+app.add_middleware(MiddlewareA)
+app.add_middleware(MiddlewareB)
+
+```
+
+MB -> MA -> Route
+Route -> MA -> MB
 

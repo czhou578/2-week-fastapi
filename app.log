@@ -1,3 +1,6 @@
 2025-07-04 02:21:53,985 - root - INFO - Request: GET http://localhost:8000/users/
 2025-07-04 02:22:23,962 - root - INFO - Request: GET http://localhost:8000/users/
 2025-07-04 02:22:23,982 - root - INFO - Response: 200 in 0.02 seconds
+2025-07-04 02:59:03,276 - root - INFO - Request: POST http://localhost:8000/users/
+2025-07-04 02:59:16,716 - root - INFO - Request: POST http://localhost:8000/users/
+2025-07-04 02:59:16,735 - root - INFO - Response: 200 in 0.02 seconds

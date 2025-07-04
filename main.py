@@ -3,7 +3,7 @@ from email.header import Header
 from typing import Union, Annotated
 from enum import Enum
 from pydantic import BaseModel
-from fastapi import FastAPI, HTTPException, Header, Depends, Response
+from fastapi import FastAPI, HTTPException, Header, Depends, Response, BackgroundTasks
 from fastapi.exceptions import RequestValidationError
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
@@ -92,12 +92,14 @@ def get_items(q: str = None, skip: int | None = 0):
     return {"q": q, "skip": skip}
 
 @app.post("/users/")
-def create_user(user: User) -> UserResponse:
+def create_user(user: User, background_tasks: BackgroundTasks) -> UserResponse:
     db: Session = next(get_db())
     db_user = DBUser(name=user.name, email=user.email)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
+
+    background_tasks.add_task(write_notification, user.email, message="User created successfully")
     return {"id": db_user.id, "name": db_user.name}
 
 
@@ -111,7 +113,14 @@ def delete_user(users_id: int):
     db.commit()
     return Response(status_code=204)
 
+def write_notification(email: str, message=""):
+    with open("log.txt", mode="w") as email_file:
+        content = f"notification for {email}: {message}"
+        email_file.write(content)
 
 
-
+@app.post("/send-notification/{email}")
+async def send_notification(email: str, background_tasks: BackgroundTasks):
+    background_tasks.add_task(write_notification, email, message="Some notification")
+    return Response(status_code=200, content=f"Notification sent to {email}")
 
