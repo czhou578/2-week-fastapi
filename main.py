@@ -3,6 +3,9 @@ from typing import Union, Annotated
 from enum import Enum
 from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException, Header, Depends, Response
+from fastapi.exceptions import RequestValidationError
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from database import get_db, User as DBUser
 
@@ -24,6 +27,20 @@ async def get_api_key(x_api_key: str = Header(...)):
     if x_api_key != "mysecretkey":
         raise HTTPException(status_code=400, detail="Invalid API Key")
     return x_api_key
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request, exc):
+    return JSONResponse(
+        status_code=400,
+        content=jsonable_encoder({"detail": exc.errors(), "body": exc.body}),
+    )
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request, exc):
+    return JSONResponse(
+        status_code=404,
+        content=jsonable_encoder({"detail": exc.detail, "body": "Not Found"}),
+    )
 
 @app.get("/")
 def read_root():

@@ -67,3 +67,29 @@ Parallelism: having multiple processes be running at the same time.
 When you declare a path operation function with normal def instead of async def, it is run in an external threadpool that is then awaited, instead of being called directly (as it would block the server).
 
 But all this functionality of using asynchronous code with async and await is many times summarized as using "coroutines". 
+
+## 5 common HTTP status codes
+
+404 - Not Found - path may be wrong
+204 - Empty Content
+500 - Internal server error
+200 - REST Operation success!
+405 - Method not allowed
+
+Raise exception in utility function being called in path function will right away send error to client
+
+## Extra Details that may be useful later
+
+- Can override default exception handlers 
+
+```python
+
+@app_exception_handler(RequestValidationError)
+async def validation_exception_handler(request, exc):
+    return PlainTextResponse(str(exc), status_code=400)
+
+@app.exception_handler(StarletteHTTPException)
+async def http_exception_handler(request, exc):
+    return PlainTextResponse(str(exc.detail), status_code=exc.status_code)        
+```
+
