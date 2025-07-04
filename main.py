@@ -2,7 +2,7 @@ from email.header import Header
 from typing import Union, Annotated
 from enum import Enum
 from pydantic import BaseModel
-from fastapi import FastAPI, HTTPException, Header, Depends
+from fastapi import FastAPI, HTTPException, Header, Depends, Response
 from sqlalchemy.orm import Session
 from database import get_db, User as DBUser
 
@@ -13,6 +13,10 @@ class User(BaseModel):
     id: int
     name: str
     email: str
+
+class UserResponse(BaseModel):
+    id: int
+    name: str
 
 app = FastAPI()
 
@@ -53,13 +57,26 @@ def get_items(q: str = None, skip: int | None = 0):
     return {"q": q, "skip": skip}
 
 @app.post("/users/")
-def create_user(user: User):
+def create_user(user: User) -> UserResponse:
     db: Session = next(get_db())
     db_user = DBUser(name=user.name, email=user.email)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
-    return {"id": db_user.id, "name": db_user.name, "email": db_user.email}
+    return {"id": db_user.id, "name": db_user.name}
+
+
+@app.delete("/users/{users_id}")
+def delete_user(users_id: int):
+    db: Session = next(get_db())
+    user = db.query(DBUser).filter(DBUser.id == users_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    db.delete(user)
+    db.commit()
+    return Response(status_code=204)
+
+
 
 
 

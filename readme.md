@@ -60,3 +60,10 @@ Dependency injection is beneficial because it is able to modularize logic. Avoid
 
 Async Await in Python:
 
+Concurrency: computer can do something else while an operation is proceeding, and come back to check on it later. once it finishes, then it grabs off the first finished task and keeps going
+
+Parallelism: having multiple processes be running at the same time.
+
+When you declare a path operation function with normal def instead of async def, it is run in an external threadpool that is then awaited, instead of being called directly (as it would block the server).
+
+But all this functionality of using asynchronous code with async and await is many times summarized as using "coroutines". 
