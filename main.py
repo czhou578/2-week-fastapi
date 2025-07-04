@@ -1,3 +1,4 @@
+import time
 from email.header import Header
 from typing import Union, Annotated
 from enum import Enum
@@ -8,6 +9,13 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from database import get_db, User as DBUser
+import logging
+
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                    handlers=[logging.FileHandler("app.log"), logging.StreamHandler()])
+
+logger = logging.getLogger(__name__)
 
 class ItemType(str, Enum):
     book = "book"
@@ -41,6 +49,16 @@ async def http_exception_handler(request, exc):
         status_code=404,
         content=jsonable_encoder({"detail": exc.detail, "body": "Not Found"}),
     )
+
+@app.middleware("http")
+async def logging_middleware(request, call_next):
+    
+    logging.info(f"Request: {request.method} {request.url}")
+    start_time = time.perf_counter()
+    response = await call_next(request)
+    duration = time.perf_counter() - start_time
+    logging.info(f"Response: {response.status_code} in {duration:.2f} seconds")
+    return response
 
 @app.get("/")
 def read_root():

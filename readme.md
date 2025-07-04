@@ -93,3 +93,7 @@ async def http_exception_handler(request, exc):
     return PlainTextResponse(str(exc.detail), status_code=exc.status_code)        
 ```
 
+Error handling benefits from better printouts of errors and also allows custom error handling
+
+
+
