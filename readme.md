@@ -107,3 +107,7 @@ app.add_middleware(MiddlewareB)
 MB -> MA -> Route
 Route -> MA -> MB
 
+Background Tasks are helpful when scheduling tasks to be run after returning a response. 
+
+
+

@@ -4,3 +4,33 @@
 2025-07-04 02:59:03,276 - root - INFO - Request: POST http://localhost:8000/users/
 2025-07-04 02:59:16,716 - root - INFO - Request: POST http://localhost:8000/users/
 2025-07-04 02:59:16,735 - root - INFO - Response: 200 in 0.02 seconds
+2025-07-04 19:48:25,486 - root - INFO - Request: POST http://localhost:8000/users/
+2025-07-04 19:48:25,823 - watchfiles.main - INFO - 1 change detected
+2025-07-04 19:48:37,618 - watchfiles.main - INFO - 1 change detected
+2025-07-04 19:48:38,116 - watchfiles.main - INFO - 1 change detected
+2025-07-04 19:48:38,519 - watchfiles.main - INFO - 4 changes detected
+2025-07-04 19:48:45,585 - root - INFO - Request: POST http://localhost:8000/users/
+2025-07-04 19:48:45,775 - watchfiles.main - INFO - 1 change detected
+2025-07-04 19:49:19,890 - root - INFO - Request: POST http://localhost:8000/users/
+2025-07-04 19:49:20,103 - watchfiles.main - INFO - 1 change detected
+2025-07-04 19:49:20,463 - watchfiles.main - INFO - 1 change detected
+2025-07-04 19:49:35,223 - watchfiles.main - INFO - 2 changes detected
+2025-07-04 19:49:35,578 - watchfiles.main - INFO - 1 change detected
+2025-07-04 19:50:05,650 - root - INFO - Request: POST http://localhost:8000/users/
+2025-07-04 19:50:05,917 - watchfiles.main - INFO - 1 change detected
+2025-07-04 19:50:05,922 - root - INFO - Response: 200 in 0.27 seconds
+2025-07-04 19:50:06,273 - watchfiles.main - INFO - 3 changes detected
+2025-07-04 19:50:06,637 - watchfiles.main - INFO - 1 change detected
+2025-07-04 19:50:27,954 - root - INFO - Request: POST http://localhost:8000/login
+2025-07-04 19:50:28,120 - watchfiles.main - INFO - 1 change detected
+2025-07-04 19:50:28,193 - root - INFO - Response: 200 in 0.24 seconds
+2025-07-04 19:50:28,482 - watchfiles.main - INFO - 1 change detected
+2025-07-04 19:50:41,471 - root - INFO - Request: GET http://localhost:8000/protected
+2025-07-04 19:50:41,782 - watchfiles.main - INFO - 1 change detected
+2025-07-04 19:53:18,497 - watchfiles.main - INFO - 1 change detected
+2025-07-04 19:53:18,965 - watchfiles.main - INFO - 1 change detected
+2025-07-04 19:53:19,373 - watchfiles.main - INFO - 2 changes detected
+2025-07-04 19:53:19,725 - watchfiles.main - INFO - 1 change detected
+2025-07-04 19:53:25,613 - root - INFO - Request: GET http://localhost:8000/protected
+2025-07-04 19:53:25,614 - root - INFO - Response: 404 in 0.00 seconds
+2025-07-04 19:53:25,805 - watchfiles.main - INFO - 1 change detected

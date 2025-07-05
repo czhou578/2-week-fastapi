@@ -1,1 +1,1 @@
-notification for john2@example.com: User created successfully
+notification for john@example.com: User created successfully
