@@ -115,3 +115,53 @@ Start Redis Server manually:
 redis-server --daemonize yes
 ```
 
+How does dependency injection work?
+
+- You define a function that is supposed to run, could be async, collect the results, and you inject that as a parameter into the api route. You use this to inject database logic or some common configuration. Dependencies can be functions or classes and support teardown using yield
+
+
+How to handle authentication?
+
+- You can use JWT tokens. Simply send the token to the server for a request, and if it matches what is on the server, then you are an authenticated user.
+
+Path parameters vs Query parmaeters in FastAPI?
+
+- Path parameters are variables that are embedded in the path of the URL, that you can extract from the url that could be variable. Query parameters are parameters defined after the question mark in the URL.
+
+How does FastAPI handle asynchronous requests, and when should you use async def vs def?
+
+- FastAPI spins up worker threads to execute the async request and it returns a coroutine, which is the result of an async op that you have to await. You should use it if you are doing some file reading, or I/O operation that doesn't require the main process to wait a long time. 
+
+How do you handle background tasks, WebSockets, or long-running operations in FastAPI?
+
+- You can use backgroundtasks, which is a module in fastAPI for such operations, and also @app.websockets to do this.
+
+How does FastAPI internally distinguish between path parameters, query parameters, and request bodies, and how does it infer their locations using Python type hints and default values?
+
+- Declared with Pydantic models are treated as request bodies. Parameters with default values of None or 0 and not part of url are treated as query params. 
+
+What are the differences between Depends, Header, Cookie, and Body in FastAPI, and how do they contribute to dependency injection or request parsing?
+
+- Depends: Used for dependency injection. Can inject logic, DB sessions, auth tokens, etc. Header: Extracts data from request headers. Cookie: Extracts data from cookies.
+Body: Forces interpretation of a primitive or dict parameter as part of the request body.
+
+What are some common patterns or anti-patterns for using async/await in FastAPI applications? How does blocking I/O affect FastAPI performance, and how should it be mitigated?
+
+- Basically not mixing async and sync code together due to performance issues.
+
+In a real-world deployment, how would you configure FastAPI to handle CORS, rate limiting, and secure HTTPS endpoints? Mention relevant middleware and deployment considerations.
+
+- Cors config, rate limit using api gateways, and use HTTPS middleware like cloudflare.
+
+How can you integrate FastAPI with SQLAlchemy (sync or async), and what are best practices for managing database sessions in a high-concurrency environment?
+
+- use connection pools
+- reuse db sessions
+- use try catch blocks for commits.
+
+How would you implement role-based access control (RBAC) in a FastAPI application, and what are the trade-offs between doing it at the route level vs the service layer?
+
+- for simple checks, use the route level but for complex business logic, use the app level.
+
+
+
