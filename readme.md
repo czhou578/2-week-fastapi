@@ -109,5 +109,9 @@ Route -> MA -> MB
 
 Background Tasks are helpful when scheduling tasks to be run after returning a response. 
 
+Start Redis Server manually:
 
+```
+redis-server --daemonize yes
+```
 

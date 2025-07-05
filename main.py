@@ -16,6 +16,12 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
 
+import redis
+import json
+
+REDIS_URL = "redis://localhost:6379"
+redis_client = redis.Redis.from_url(REDIS_URL, decode_responses=True)
+
 SECRET_KEY = "your-secret-key-here"  # Change this to a secure secret key
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
@@ -149,13 +155,37 @@ def read_users(skip: int = 0, limit: int = 10):
     return users
 
 @app.get("/users/{user_id}")
-def read_user(user_id: int, api_key: Annotated[str, Depends(get_api_key)]):
-    if user_id < 0:
-        return {"error": "User ID must be a non-negative integer"}
-    elif user_id > 0 and user_id < 1000:
-        return {"user_id": user_id, "status": "active", "item_type": ItemType.book}
-    else:
-        return {"user_id": user_id, "status": "inactive"}
+async def read_user(user_id: int, api_key: Annotated[str, Depends(get_api_key)]):
+    # Create cache key
+    cache_key = f"user:{user_id}"
+    
+    # Try to get from cache first
+    cached_user = await get_cache(cache_key)
+    if cached_user:
+        logger.info(f"Cache hit for user {user_id}")
+        return cached_user
+    
+    # Cache miss - get from database
+    logger.info(f"Cache miss for user {user_id}")
+    db: Session = next(get_db())
+    db_user = db.query(DBUser).filter(DBUser.id == user_id).first()
+    
+    if not db_user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Prepare response data
+    user_data = {
+        "user_id": db_user.id,
+        "name": db_user.name,
+        "email": db_user.email,
+        "status": "active" if user_id < 1000 else "inactive",
+        "item_type": ItemType.book
+    }
+    
+    # Cache the result for 5 minutes
+    await set_cache(cache_key, user_data, 300)
+    
+    return user_data
 
 @app.get("/users/{user_id}/items/{item_id}")
 def get_user_item(user_id: int, item_id: str):
@@ -229,4 +259,53 @@ def login(user_login: UserLogin):
 @app.get("/protected")
 async def protected_route(token: Annotated[TokenData, Depends(verify_token)]):
     return {"message": "This is a protected route", "user": token.email}
+
+@app.get("/health/redis")
+async def redis_health():
+    try:
+        redis_client.ping()
+        return {"status": "healthy", "redis": "connected"}
+    except Exception as e:
+        return {"status": "unhealthy", "redis": "disconnected", "error": str(e)}
+
+# Cache utility functions
+async def get_cache(key: str):
+    """Get data from Redis cache"""
+    try:
+        cached_data = redis_client.get(key)
+        if cached_data:
+            return json.loads(cached_data)
+        return None
+    except Exception as e:
+        logger.error(f"Cache get error: {e}")
+        return None
+
+async def set_cache(key: str, value: dict, expire_time: int = 300):
+    """Set data in Redis cache with expiration (default 5 minutes)"""
+    try:
+        redis_client.setex(key, expire_time, json.dumps(value))
+    except Exception as e:
+        logger.error(f"Cache set error: {e}")
+
+async def delete_cache(key: str):
+    """Delete data from Redis cache"""
+    try:
+        redis_client.delete(key)
+    except Exception as e:
+        logger.error(f"Cache delete error: {e}")
+
+'''
+curl -X POST "http://localhost:8000/users/" \
+     -H "Content-Type: application/json" \
+     -d '{"name": "John Doe", "email": "john@example.com", "password": "secret123"}'
+
+curl -X POST "http://localhost:8000/login" \
+     -H "Content-Type: application/json" \
+     -d '{"email": "john@example.com", "password": "secret123"}'
+
+curl -X GET "http://localhost:8000/protected" \
+     -H "Authorization: Bearer YOUR_JWT_TOKEN_HERE"
+
+'''
+
 

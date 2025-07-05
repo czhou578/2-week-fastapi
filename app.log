@@ -34,3 +34,78 @@
 2025-07-04 19:53:25,613 - root - INFO - Request: GET http://localhost:8000/protected
 2025-07-04 19:53:25,614 - root - INFO - Response: 404 in 0.00 seconds
 2025-07-04 19:53:25,805 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:00:12,432 - watchfiles.main - INFO - 30 changes detected
+2025-07-04 20:00:12,798 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:00:14,225 - watchfiles.main - INFO - 3 changes detected
+2025-07-04 20:00:14,580 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:02:33,676 - root - INFO - Request: GET http://localhost:8000/protected
+2025-07-04 20:02:33,711 - root - INFO - Response: 200 in 0.03 seconds
+2025-07-04 20:02:33,981 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:03:15,144 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:03:15,673 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:03:16,332 - watchfiles.main - INFO - 2 changes detected
+2025-07-04 20:03:16,686 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:08:02,861 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:08:03,429 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:08:03,784 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:08:04,137 - watchfiles.main - INFO - 2 changes detected
+2025-07-04 20:08:04,489 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:08:04,848 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:08:05,554 - watchfiles.main - INFO - 2 changes detected
+2025-07-04 20:08:05,908 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:09:12,502 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:09:12,861 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:09:13,213 - watchfiles.main - INFO - 2 changes detected
+2025-07-04 20:09:13,568 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:09:13,973 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:09:14,580 - watchfiles.main - INFO - 2 changes detected
+2025-07-04 20:09:14,932 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:09:52,883 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:09:53,243 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:09:53,600 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:09:53,957 - watchfiles.main - INFO - 2 changes detected
+2025-07-04 20:09:54,715 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:09:55,069 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:09:55,421 - watchfiles.main - INFO - 3 changes detected
+2025-07-04 20:10:39,957 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:10:40,312 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:10:40,666 - watchfiles.main - INFO - 3 changes detected
+2025-07-04 20:11:06,727 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:11:07,087 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:11:07,443 - watchfiles.main - INFO - 3 changes detected
+2025-07-04 20:11:32,542 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:11:32,895 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:11:33,249 - watchfiles.main - INFO - 2 changes detected
+2025-07-04 20:11:33,604 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:12:00,790 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:12:01,148 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:12:01,499 - watchfiles.main - INFO - 3 changes detected
+2025-07-04 20:14:05,726 - root - INFO - Request: GET http://localhost:8000/users/1
+2025-07-04 20:14:05,729 - main - ERROR - Cache get error: Error 111 connecting to localhost:6379. Connection refused.
+2025-07-04 20:14:05,729 - main - INFO - Cache miss for user 1
+2025-07-04 20:14:05,735 - main - ERROR - Cache set error: Error 111 connecting to localhost:6379. Connection refused.
+2025-07-04 20:14:05,735 - root - INFO - Response: 200 in 0.01 seconds
+2025-07-04 20:14:05,908 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:14:27,425 - root - INFO - Request: GET http://localhost:8000/users/1
+2025-07-04 20:14:27,426 - main - ERROR - Cache get error: Error 111 connecting to localhost:6379. Connection refused.
+2025-07-04 20:14:27,426 - main - INFO - Cache miss for user 1
+2025-07-04 20:14:27,429 - main - ERROR - Cache set error: Error 111 connecting to localhost:6379. Connection refused.
+2025-07-04 20:14:27,430 - root - INFO - Response: 200 in 0.01 seconds
+2025-07-04 20:14:27,713 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:17:48,672 - root - INFO - Request: GET http://localhost:8000/health/redis
+2025-07-04 20:17:48,675 - root - INFO - Response: 200 in 0.00 seconds
+2025-07-04 20:17:48,911 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:21:25,761 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:21:26,119 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:21:26,471 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:22:02,458 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:22:02,817 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:22:30,254 - root - INFO - Request: GET http://localhost:8000/users/1
+2025-07-04 20:22:30,259 - main - INFO - Cache miss for user 1
+2025-07-04 20:22:30,273 - root - INFO - Response: 200 in 0.02 seconds
+2025-07-04 20:22:30,357 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:22:34,974 - root - INFO - Request: GET http://localhost:8000/users/1
+2025-07-04 20:22:34,976 - main - INFO - Cache hit for user 1
+2025-07-04 20:22:34,977 - root - INFO - Response: 200 in 0.00 seconds
+2025-07-04 20:22:35,154 - watchfiles.main - INFO - 1 change detected
+2025-07-04 20:22:35,507 - watchfiles.main - INFO - 1 change detected
