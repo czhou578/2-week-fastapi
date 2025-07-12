@@ -49,6 +49,28 @@ def read_item(item_id: int = Path(..., ge=1), q: str = None):
 
 With Pydantic, FastAPI handles validation errors automatically, returning appropriate HTTP status codes and error messages.
 
+```python
+@router.get("/good-ping")
+def good_ping():
+    time.sleep(10) # I/O blocking operation for 10 seconds, but in a separate thread for the whole `good_ping` route
+
+    return {"pong": True}
+
+@router.get("/perfect-ping")
+async def perfect_ping():
+    await asyncio.sleep(10) # non-blocking I/O operation
+
+    return {"pong": True}
+
+```
+
+**Important**:
+FastAPI first converts that pydantic object to dict with its jsonable_encoder, then validates data with your response_model, and only then serializes your object to JSON.
+
+Threads require more resources than coroutines, so they are not as cheap as async I/O operations.
+Thread pool has a limited number of threads, i.e. you might run out of threads and your app will become slow. Read more (external link)
+
+
 Query parameters and Request bodies are different because Request bodies are generating a schema based upon the request body
 that is being sent up with the api request. 
 
@@ -56,7 +78,7 @@ Dependency Injection:
 
 It is just a function that can take all the same parameters that a path operation function can take:
 
-Dependency injection is beneficial because it is able to modularize logic. Avoid code duplication
+Dependency injection is beneficial because it is able to modularize logic. Avoid code duplication. Dependencies are also cached!
 
 Async Await in Python:
 
