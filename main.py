@@ -149,13 +149,12 @@ def read_item(item_id: int, q: Union[str, None] = None):
     return {"item_id": item_id, "q": q}
 
 @app.get("/users/")
-def read_users(skip: int = 0, limit: int = 10):
-    db: Session = next(get_db())
+def read_users(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     users = db.query(DBUser).offset(skip).limit(limit).all()
     return users
 
 @app.get("/users/{user_id}")
-async def read_user(user_id: int, api_key: Annotated[str, Depends(get_api_key)]):
+async def read_user(user_id: int, api_key: Annotated[str, Depends(get_api_key)], db: Session = Depends(get_db())):
     # Create cache key
     cache_key = f"user:{user_id}"
     
@@ -167,7 +166,6 @@ async def read_user(user_id: int, api_key: Annotated[str, Depends(get_api_key)])
     
     # Cache miss - get from database
     logger.info(f"Cache miss for user {user_id}")
-    db: Session = next(get_db())
     db_user = db.query(DBUser).filter(DBUser.id == user_id).first()
     
     if not db_user:
@@ -196,8 +194,7 @@ def get_items(q: str = None, skip: int | None = 0):
     return {"q": q, "skip": skip}
 
 @app.post("/users/", response_model=UserResponse)
-def create_user(user: UserCreate, background_tasks: BackgroundTasks):
-    db: Session = next(get_db())
+def create_user(user: UserCreate, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     
     # Check if user already exists
     db_user = db.query(DBUser).filter(DBUser.email == user.email).first()
@@ -218,8 +215,7 @@ def create_user(user: UserCreate, background_tasks: BackgroundTasks):
 
 
 @app.delete("/users/{users_id}")
-def delete_user(users_id: int):
-    db: Session = next(get_db())
+def delete_user(users_id: int, db: Session = Depends(get_db)):
     user = db.query(DBUser).filter(DBUser.id == users_id).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -240,8 +236,7 @@ async def send_notification(email: str, background_tasks: BackgroundTasks):
 
 
 @app.post("/login", response_model=Token)
-def login(user_login: UserLogin):
-    db: Session = next(get_db())
+def login(user_login: UserLogin, db: Session = Depends(get_db)):
     user = db.query(DBUser).filter(DBUser.email == user_login.email).first()
     if not user or not verify_password(user_login.password, user.password):
         raise HTTPException(
